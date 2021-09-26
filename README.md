@@ -1,5 +1,5 @@
 # Let me ask
-## React project
+React project
 
 ## Installation
 `npm install`
