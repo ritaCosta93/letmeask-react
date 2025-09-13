@@ -2,9 +2,7 @@ import { type FormEvent, useState } from 'react';
 import { database } from '../services/firebase';
 import type { TUser } from '../types/User';
 
-export function useQuestion(user?: TUser | null, roomId?: string)
- {
-  
+export function useQuestion(user?: TUser | null, roomId?: string) {
   const [newQuestion, setNewQuestion] = useState('');
 
   // Send a new question
@@ -26,7 +24,6 @@ export function useQuestion(user?: TUser | null, roomId?: string)
     setNewQuestion('');
   }
 
-  
   // Delete a question
   async function handleDeleteQuestion(questionId: string) {
     if (window.confirm('Tem certeza que deseja excluir esta pergunta?')) {

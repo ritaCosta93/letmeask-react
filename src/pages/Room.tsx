@@ -21,7 +21,7 @@ export function Room() {
     <div id='page-room'>
       <header>
         <div className='content'>
-          <Header/>
+          <Header />
           <div className=''>
             <RoomCode code={roomId!} />
           </div>

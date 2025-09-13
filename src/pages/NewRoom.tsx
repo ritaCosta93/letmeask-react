@@ -22,7 +22,7 @@ export function NewRoom() {
         <p>Tire as dúvidas da sua audiência em tempo-real</p>
       </aside>
       <main className='main-content'>
-        <Header/>
+        <Header />
         <h2>Criar uma nova sala</h2>
         <form onSubmit={handleCreateRoom}>
           <input type='text' placeholder='Nome da sala' onChange={event => setNewRoom(event.target.value)} value={newRoom} />

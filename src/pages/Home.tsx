@@ -27,7 +27,7 @@ export function Home() {
         <p>Tire as dúvidas da sua audiência em tempo-real</p>
       </aside>
       <main className='main-content'>
-        <Header/>
+        <Header />
         <button className='create-room' onClick={handleCreateRoomPage}>
           <img src={googleIconImg} alt='Logo do Google' />
           Crie sua sala com o Google

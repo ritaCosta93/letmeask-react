@@ -92,7 +92,6 @@ export function useRoom(roomId?: string, roomCode?: string) {
     navigate('/');
   }
 
-
   return {
     questions,
     title,

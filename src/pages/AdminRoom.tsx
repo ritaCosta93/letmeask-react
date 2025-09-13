@@ -16,19 +16,15 @@ import { Header } from '../components/partials/Header';
 
 export function AdminRoom() {
   const { id: roomId } = useParams<{ id: string }>();
-  const {
-    handleDeleteQuestion,
-    handleCheckQuestionAsAnswered,
-    handleHighlightQuestion
-  } = useQuestion(null, roomId!); 
+  const { handleDeleteQuestion, handleCheckQuestionAsAnswered, handleHighlightQuestion } = useQuestion(null, roomId!);
 
-  const { questions, title, handleEndRoom, } = useRoom(roomId!);
+  const { questions, title, handleEndRoom } = useRoom(roomId!);
 
   return (
     <div id='page-room'>
       <header>
         <div className='content'>
-          <Header/>
+          <Header />
           <div>
             <RoomCode code={roomId!} />
             <Button isOutlined onClick={handleEndRoom}>
