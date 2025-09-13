@@ -34,7 +34,7 @@ export function Home() {
           Crie sua sala com o Google
         </button>
         <div className='separator'>ou entre em uma sala</div>
-        <form onSubmit={handleJoinRoom}>
+        <form onSubmit={event => handleJoinRoom(event, roomCode)}>
           <input type='text' placeholder='digite o código da sala' onChange={event => setRoomCode(event.target.value)} value={roomCode} />
           <Button type='submit'>Entrar na sala</Button>
         </form>

@@ -67,7 +67,7 @@ export function useRoom(roomId?: string, roomCode?: string) {
   }
 
   // Join an existing room
-  async function handleJoinRoom(event: FormEvent) {
+  async function handleJoinRoom(event: FormEvent, roomCode: string) {
     event.preventDefault();
     if (!roomCode?.trim()) return;
 
