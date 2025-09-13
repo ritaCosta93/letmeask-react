@@ -1,13 +1,13 @@
 import { Link, useParams } from 'react-router-dom';
-
 import illustrationImg from '../assets/images/illustration.svg';
-import logoImg from '../assets/images/logo.svg';
+
 import { Button } from '../components/Button';
 
 import '../styles/auth.scss';
 
 import { useRoom } from '../hooks/useRoom';
 import type { TRoom } from '../types/Room';
+import { Header } from '../components/partials/Header';
 
 export function NewRoom() {
   const { id: roomId } = useParams<TRoom>();
@@ -22,9 +22,7 @@ export function NewRoom() {
         <p>Tire as dúvidas da sua audiência em tempo-real</p>
       </aside>
       <main className='main-content'>
-        <div>
-          <img src={logoImg} alt='Letmeask' />
-        </div>
+        <Header/>
         <h2>Criar uma nova sala</h2>
         <form onSubmit={handleCreateRoom}>
           <input type='text' placeholder='Nome da sala' onChange={event => setNewRoom(event.target.value)} value={newRoom} />

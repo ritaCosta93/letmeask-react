@@ -8,9 +8,10 @@ import '../styles/auth.scss';
 
 import { Button } from '../components/Button';
 
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useRoom } from '../hooks/useRoom';
 import type { TRoom } from '../types/Room';
+import { Header } from '../components/partials/Header';
 
 export function Home() {
   const { id: roomId } = useParams<TRoom>();
@@ -26,9 +27,7 @@ export function Home() {
         <p>Tire as dúvidas da sua audiência em tempo-real</p>
       </aside>
       <main className='main-content'>
-        <div>
-          <img src={logoImg} alt='Letmeask' />
-        </div>
+        <Header/>
         <button className='create-room' onClick={handleCreateRoomPage}>
           <img src={googleIconImg} alt='Logo do Google' />
           Crie sua sala com o Google

@@ -1,56 +1,27 @@
-import { type FormEvent, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import logoImg from '../assets/images/logo.svg';
 import { Button } from '../components/Button';
 import { Question } from '../components/Question';
 import { RoomCode } from '../components/RoomCode';
 import { useAuth } from '../hooks/useAuth';
 import { useRoom } from '../hooks/useRoom';
-import { database } from '../services/firebase';
 
 import '../styles/room.scss';
+import { useQuestion } from '../hooks/useQuestion';
 import type { TRoom } from '../types/Room';
+import { Header } from '../components/partials/Header';
 
 export function Room() {
   const { user } = useAuth();
-  const [newQuestion, setNewQuestion] = useState('');
   const { id: roomId } = useParams<TRoom>();
-
   const { title, questions } = useRoom(roomId!);
-  const question = {
-    content: newQuestion,
-    author: {
-      name: user?.name,
-      avatar: user?.avatar
-    },
-    isHighlighted: false,
-    isAnswered: false
-  };
-
-  async function handleSendQuestion(event: FormEvent) {
-    event.preventDefault();
-    if (newQuestion.trim() === '') {
-      return;
-    }
-    await database.ref(`rooms/${roomId}/questions`).push(question);
-    setNewQuestion('');
-  }
-
-  async function handleLikeQuestion(questionId: string, likeId: string | undefined) {
-    if (likeId) {
-      await database.ref(`rooms/${roomId}/questions/${questionId}/likes/${likeId}`).remove();
-    } else {
-      await database.ref(`rooms/${roomId}/questions/${questionId}/likes`).push({
-        authorId: user?.id
-      });
-    }
-  }
+  const { setNewQuestion, newQuestion, handleSendQuestion, handleLikeQuestion } = useQuestion(user!, roomId!);
 
   return (
     <div id='page-room'>
       <header>
         <div className='content'>
-          <img src={logoImg} alt='letmeask' />
+          <Header/>
           <div className=''>
             <RoomCode code={roomId!} />
           </div>

@@ -12,17 +12,23 @@ import deleteImg from '../assets/images/delete.svg';
 import '../styles/room.scss';
 import { useQuestion } from '../hooks/useQuestion';
 import { useRoom } from '../hooks/useRoom';
+import { Header } from '../components/partials/Header';
 
 export function AdminRoom() {
   const { id: roomId } = useParams<{ id: string }>();
-  const { handleEndRoom, handleDeleteQuestion, handleCheckQuestionAsAnswered, handleHighlightQuestion } = useQuestion(roomId!);
-  const { questions, title } = useRoom(roomId!);
+  const {
+    handleDeleteQuestion,
+    handleCheckQuestionAsAnswered,
+    handleHighlightQuestion
+  } = useQuestion(null, roomId!); 
+
+  const { questions, title, handleEndRoom, } = useRoom(roomId!);
 
   return (
     <div id='page-room'>
       <header>
         <div className='content'>
-          <img src={logoImg} alt='letmeask' />
+          <Header/>
           <div>
             <RoomCode code={roomId!} />
             <Button isOutlined onClick={handleEndRoom}>

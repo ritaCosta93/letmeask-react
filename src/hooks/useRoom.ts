@@ -86,6 +86,13 @@ export function useRoom(roomId?: string, roomCode?: string) {
     navigate(`/rooms/${roomCode}`);
   }
 
+  // End the room
+  async function handleEndRoom() {
+    await database.ref(`rooms/${roomId}`).update({ endedAt: new Date() });
+    navigate('/');
+  }
+
+
   return {
     questions,
     title,
@@ -95,6 +102,7 @@ export function useRoom(roomId?: string, roomCode?: string) {
     setNewRoom,
     handleJoinRoom,
     newRoom,
-    roomCode
+    roomCode,
+    handleEndRoom
   };
 }
