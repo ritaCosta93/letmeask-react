@@ -1,26 +1,13 @@
 import firebase from 'firebase';
-import { type ReactNode, createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { auth } from '../services/firebase';
+import type { TAuthContextProviderProps, TAuthContextType } from '../types/Auth';
+import type { TUser } from '../types/User';
 
-export const AuthContext = createContext({} as AuthContextType);
+export const AuthContext = createContext({} as TAuthContextType);
 
-type User = {
-  id: string;
-  name: string;
-  avatar: string;
-};
-
-type AuthContextType = {
-  user: User | undefined;
-  signInWithGoogle: () => Promise<void>;
-};
-
-type AuthContextProviderProps = {
-  children: ReactNode;
-};
-
-export function AuthContextProvider(props: AuthContextProviderProps) {
-  const [user, setUser] = useState<User>();
+export function AuthContextProvider(props: TAuthContextProviderProps) {
+  const [user, setUser] = useState<TUser>();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {

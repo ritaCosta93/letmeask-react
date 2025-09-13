@@ -1,19 +1,8 @@
 import cx from 'classnames';
-import type { ReactNode } from 'react';
 import '../styles/question.scss';
+import type { TQuestion } from '../types/Question';
 
-type QuestionProps = {
-  content: string;
-  author: {
-    name: string;
-    avatar: string;
-  };
-  children?: ReactNode;
-  isAnswered?: boolean;
-  isHighlighted?: boolean;
-};
-
-export function Question({ content, author, isAnswered = false, isHighlighted = false, children }: QuestionProps) {
+export function Question({ content, author, isAnswered = false, isHighlighted = false, children }: TQuestion) {
   return (
     <div className={cx('question', { answered: isAnswered }, { highlighted: isHighlighted && !isAnswered })}>
       <p>{content}</p>

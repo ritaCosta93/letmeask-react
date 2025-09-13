@@ -9,15 +9,12 @@ import { useRoom } from '../hooks/useRoom';
 import { database } from '../services/firebase';
 
 import '../styles/room.scss';
-
-type RoomParams = {
-  id?: string;
-};
+import type { TRoom } from '../types/Room';
 
 export function Room() {
   const { user } = useAuth();
   const [newQuestion, setNewQuestion] = useState('');
-  const { id: roomId } = useParams<RoomParams>();
+  const { id: roomId } = useParams<TRoom>();
 
   const { title, questions } = useRoom(roomId!);
   const question = {
@@ -92,6 +89,9 @@ export function Room() {
                 author={question.author}
                 isAnswered={question.isAnswered}
                 isHighlighted={question.isHighlighted}
+                id={''}
+                likeCount={0}
+                likeId={undefined}
               >
                 {!question.isAnswered && (
                   <button

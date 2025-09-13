@@ -1,49 +1,18 @@
 import { useEffect, useState } from 'react';
 import { database } from '../services/firebase';
+import type { TFirebaseQuestion, TQuestion } from '../types/Question';
 import { useAuth } from './useAuth';
-
-type QuestionType = {
-  id: string;
-  author: {
-    name: string;
-    avatar: string;
-  };
-  content: string;
-  isAnswered: boolean;
-  isHighlighted: boolean;
-  likeCount: number;
-  likeId: string | undefined;
-};
-
-type FirebaseQuestions = Record<
-  string,
-  {
-    author: {
-      name: string;
-      avatar: string;
-    };
-    content: string;
-    isAnswered: boolean;
-    isHighlighted: boolean;
-    likes: Record<
-      string,
-      {
-        authorId: string;
-      }
-    >;
-  }
->;
 
 export function useRoom(roomId: string) {
   const { user } = useAuth();
-  const [questions, setQuestions] = useState<QuestionType[]>([]);
+  const [questions, setQuestions] = useState<TQuestion[]>([]);
   const [title, setTitle] = useState('');
 
   useEffect(() => {
     const roomRef = database.ref(`rooms/${roomId}`);
     roomRef.on('value', room => {
       const databaseRoom = room.val();
-      const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {};
+      const firebaseQuestions: TFirebaseQuestion = databaseRoom.questions ?? {};
       const parsedQuestions = Object.entries(firebaseQuestions).map(([key, value]) => {
         return {
           id: key,
@@ -52,7 +21,7 @@ export function useRoom(roomId: string) {
           isHighlighted: value.isHighlighted,
           isAnswered: value.isAnswered,
           likeCount: Object.values(value.likes ?? {}).length,
-          likeId: Object.entries(value.likes ?? {}).find(([key, like]) => like.authorId === user?.id)?.[0]
+          likeId: Object.entries(value.likes ?? {}).find(([_key, like]) => like.authorId === user?.id)?.[0]
         };
       });
       setTitle(databaseRoom.title);
