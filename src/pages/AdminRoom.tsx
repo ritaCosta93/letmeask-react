@@ -2,53 +2,21 @@ import logoImg from '../assets/images/logo.svg';
 import { Button } from '../components/Button';
 import { Question } from '../components/Question';
 import { RoomCode } from '../components/RoomCode';
-import { useRoom } from '../hooks/useRoom';
-import { database } from '../services/firebase';
 
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import answerImg from '../assets/images/answer.svg';
 import checkImg from '../assets/images/check.svg';
 import deleteImg from '../assets/images/delete.svg';
 
 import '../styles/room.scss';
-
-type RoomParams = {
-  id?: string;
-};
+import { useQuestion } from '../hooks/useQuestion';
+import { useRoom } from '../hooks/useRoom';
 
 export function AdminRoom() {
-  const navigate = useNavigate();
-
-  const { id: roomId } = useParams<RoomParams>();
-
-  const { title, questions } = useRoom(roomId!);
-
-  async function handleEndRoom() {
-    await database.ref(`rooms/${roomId}`).update({
-      endedAt: new Date()
-    });
-
-    navigate('/');
-  }
-
-  async function handleDeleteQuestion(questionId: string) {
-    if (window.confirm('Tem certeza que deseja exluir esta pergunta?')) {
-      await database.ref(`rooms/${roomId}/questions/${questionId}`).remove();
-    }
-  }
-
-  async function handleCheckQuestionAsAnswered(questionId: string) {
-    await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
-      isAnswered: true
-    });
-  }
-
-  async function handleHighlightQuestion(questionId: string) {
-    await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
-      isHighlighted: true
-    });
-  }
+  const { id: roomId } = useParams<{ id: string }>();
+  const { handleEndRoom, handleDeleteQuestion, handleCheckQuestionAsAnswered, handleHighlightQuestion } = useQuestion(roomId!);
+  const { questions, title } = useRoom(roomId!);
 
   return (
     <div id='page-room'>

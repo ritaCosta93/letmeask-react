@@ -1,50 +1,22 @@
-import { type FormEvent, useState } from 'react';
+import { useState } from 'react';
 
 import googleIconImg from '../assets/images/google-icon.svg';
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 
 import '../styles/auth.scss';
-import { useNavigate } from 'react-router-dom';
+
 import { Button } from '../components/Button';
-import { useAuth } from '../hooks/useAuth';
-import { database } from '../services/firebase';
+
+import { useParams } from 'react-router-dom';
+import { useRoom } from '../hooks/useRoom';
+import type { TRoom } from '../types/Room';
 
 export function Home() {
-  const navigate = useNavigate();
+  const { id: roomId } = useParams<TRoom>();
 
-  const { user, signInWithGoogle } = useAuth();
+  const { handleCreateRoomPage, handleJoinRoom } = useRoom(roomId!);
   const [roomCode, setRoomCode] = useState('');
-
-  async function handleCreateRoom() {
-    if (!user) {
-      await signInWithGoogle();
-    }
-
-    navigate('/rooms/new');
-  }
-
-  async function handleJoinRoom(event: FormEvent) {
-    event.preventDefault();
-
-    if (roomCode.trim() === '') {
-      return;
-    }
-
-    const roomRef = await database.ref(`rooms/${roomCode}`).get();
-
-    if (!roomRef.exists()) {
-      alert('Room does not exist');
-      return;
-    }
-
-    if (roomRef.val().endedAt) {
-      alert('Room already closed');
-      return;
-    }
-
-    navigate(`/rooms/${roomCode}`);
-  }
 
   return (
     <div id='page-auth'>
@@ -57,7 +29,7 @@ export function Home() {
         <div>
           <img src={logoImg} alt='Letmeask' />
         </div>
-        <button className='create-room' onClick={handleCreateRoom}>
+        <button className='create-room' onClick={handleCreateRoomPage}>
           <img src={googleIconImg} alt='Logo do Google' />
           Crie sua sala com o Google
         </button>
