@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { type FormEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import logoImg from '../assets/images/logo.svg';
 import { Button } from '../components/Button';
@@ -11,15 +11,15 @@ import { database } from '../services/firebase';
 import '../styles/room.scss';
 
 type RoomParams = {
-  id: string;
+  id?: string;
 };
 
 export function Room() {
   const { user } = useAuth();
   const [newQuestion, setNewQuestion] = useState('');
-  const { id } = useParams<{ id: string }>();
-  const roomId = id ?? '';
-  const { title, questions } = useRoom(roomId);
+  const { id: roomId } = useParams<RoomParams>();
+
+  const { title, questions } = useRoom(roomId!);
   const question = {
     content: newQuestion,
     author: {
@@ -55,7 +55,7 @@ export function Room() {
         <div className='content'>
           <img src={logoImg} alt='letmeask' />
           <div className=''>
-            <RoomCode code={roomId} />
+            <RoomCode code={roomId!} />
           </div>
         </div>
       </header>

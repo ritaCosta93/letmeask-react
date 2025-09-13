@@ -1,16 +1,17 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 import { Button } from '../components/Button';
 
-import { FormEvent, useState } from 'react';
+import { type FormEvent, useState } from 'react';
 
 import '../styles/auth.scss';
-import { database } from '../services/firebase';
 import { useAuth } from '../hooks/useAuth';
+import { database } from '../services/firebase';
 
 export function NewRoom() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [newRoom, setNewRoom] = useState('');
 
@@ -27,7 +28,7 @@ export function NewRoom() {
       authorId: user?.id
     });
 
-    push(`/rooms/${firebaseRoom.key}`);
+    navigate(`/rooms/${firebaseRoom.key}`);
   }
 
   return (
@@ -52,8 +53,4 @@ export function NewRoom() {
       </main>
     </div>
   );
-}
-
-function push(arg0: string) {
-  throw new Error('Function not implemented.');
 }

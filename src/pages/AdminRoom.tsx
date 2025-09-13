@@ -1,10 +1,11 @@
-import { useParams } from 'react-router-dom';
 import logoImg from '../assets/images/logo.svg';
 import { Button } from '../components/Button';
 import { Question } from '../components/Question';
 import { RoomCode } from '../components/RoomCode';
 import { useRoom } from '../hooks/useRoom';
 import { database } from '../services/firebase';
+
+import { useNavigate, useParams } from 'react-router-dom';
 
 import answerImg from '../assets/images/answer.svg';
 import checkImg from '../assets/images/check.svg';
@@ -13,21 +14,22 @@ import deleteImg from '../assets/images/delete.svg';
 import '../styles/room.scss';
 
 type RoomParams = {
-  id: string;
+  id?: string;
 };
 
 export function AdminRoom() {
-  const params = useParams<RoomParams>();
-  const { id } = useParams<{ id: string }>();
-  const roomId = id ?? '';
-  const { title, questions } = useRoom(roomId);
+  const navigate = useNavigate();
+
+  const { id: roomId } = useParams<RoomParams>();
+
+  const { title, questions } = useRoom(roomId!);
 
   async function handleEndRoom() {
     await database.ref(`rooms/${roomId}`).update({
       endedAt: new Date()
     });
 
-    push('/');
+    navigate('/');
   }
 
   async function handleDeleteQuestion(questionId: string) {
@@ -54,7 +56,7 @@ export function AdminRoom() {
         <div className='content'>
           <img src={logoImg} alt='letmeask' />
           <div>
-            <RoomCode code={roomId} />
+            <RoomCode code={roomId!} />
             <Button isOutlined onClick={handleEndRoom}>
               Encerrar sala
             </Button>
@@ -99,8 +101,4 @@ export function AdminRoom() {
       </main>
     </div>
   );
-}
-
-function push(arg0: string) {
-  throw new Error('Function not implemented.');
 }

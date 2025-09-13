@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, createContext, useEffect, useState } from 'react';
 import { auth } from '../services/firebase';
 
 export const AuthContext = createContext({} as AuthContextType);

@@ -1,15 +1,18 @@
-import { FormEvent, useState } from 'react';
+import { type FormEvent, useState } from 'react';
 
+import googleIconImg from '../assets/images/google-icon.svg';
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
-import googleIconImg from '../assets/images/google-icon.svg';
 
 import '../styles/auth.scss';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
 
 export function Home() {
+  const navigate = useNavigate();
+
   const { user, signInWithGoogle } = useAuth();
   const [roomCode, setRoomCode] = useState('');
 
@@ -18,7 +21,7 @@ export function Home() {
       await signInWithGoogle();
     }
 
-    push('/rooms/new');
+    navigate('/rooms/new');
   }
 
   async function handleJoinRoom(event: FormEvent) {
@@ -40,7 +43,7 @@ export function Home() {
       return;
     }
 
-    push(`/rooms/${roomCode}`);
+    navigate(`/rooms/${roomCode}`);
   }
 
   return (
@@ -66,8 +69,4 @@ export function Home() {
       </main>
     </div>
   );
-}
-
-function push(arg0: string) {
-  throw new Error('Function not implemented.');
 }
