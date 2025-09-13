@@ -1,7 +1,7 @@
 # Let me ask
 This is a Q&A system for a livestream context, where you can create a room, give the room code to your viewers and they can ask you questions.
 
-![Home!](home.png)
+![ Let me ask!](./public/screenshot.png)
 
 ## Installation
 `npm install`
